@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel ="stylesheet" href ="Currency.html"/>
+    <script src="Currency.JS"></script>
+    <title>Currency Converter App</title>
+</head>
+<body>
+    
+	<form id="currency_form">
+        <!-- Currency Converter -->
+        <h1 class="heading text-center display-2">
+            Currency Converter
+        </h1>
+        <hr>
+        
+     <div class="container">
+            <div class="main">
+                <div class="form-group">
+                    <label for="amount">
+                        Amount to Convert :
+                    </label>
+                    <input type="text" class="form-control searchBox" placeholder="0.00" id="oamount">
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">From</span>
+                            </div>
+                        
+                            <select id="from-currency-dropdown">
+							<option value="">Select One …</option>
+							</select>
+							<label>Currency Code:</label>
+									<label id="selected-from-currency-label"></label>
+                        </div>
+                    </div>
+     
+                    <div class="col-sm-6">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">To</span>
+                            </div>
+                            <select id="to-currency-dropdown">
+							<option value="">Select One …</option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+				
+				<br/>
+<br/>
+     
+                <div class="text-center">
+                    
+     
+                    <!-- convert button -->
+                    <button class="btn btn-primary convert m-2" type="submit">
+                        Convert
+                    </button>
+                    <!-- reset button -->
+                    <button class="btn btn-primary m-2" onclick="clearVal()">
+                        Reset
+                    </button>
+                </div>
+     
+            </div>
+            <div calss="text-center2">
+                <p>Exchange rate on: <label id="datetime-label"/></p>
+                
+            </div>
+
+            </div>
+     
+            <div id="finalAmount" class="text-center">
+     
+                <!-- Display the converted amount -->
+                <h2>Converted Amount :
+                    <span class="finalValue" style="color:green;">
+                    </span>
+                </h2>
+            </div>
+        </div>
+     
+        <!-- linking script.js file -->
+        <script src="script.js"></script>
+		</body>
+    </html>
