@@ -8,8 +8,8 @@ let currencyRates = {
 };
 
 function insertCurrencyRate() {
-    const base = document.getElementById('base').value.toUpperCase();
-    const targetCurrency = document.getElementById('targetCurrency').value.toUpperCase();
+    const base = document.getElementById('base').value.trim().toUpperCase();
+    const targetCurrency = document.getElementById('targetCurrency').value.trim().toUpperCase();
     const rate = parseFloat(document.getElementById('rate').value);
     
 
@@ -103,7 +103,7 @@ function convertCurrency(){
         return;
     }
     
-    if (amountInput === null || amountInput.trim() === "") {
+    if (isNaN(input)|| amountInput === null || amountInput.trim() === "") {
         alert("Amount cannot be blank");
         return;
     }
