@@ -15,13 +15,53 @@ class CurrencyRate {
     }
 }
 
-const currencyRatesArray = Object.entries(currencyRates.rates).map(([code, rate, date]) => new CurrencyRate(code, rate, currencyRates.date));
+document.addEventListener('DOMContentLoaded', function() {
+    var coll = document.querySelectorAll(".collapsible");
+    coll.forEach(function(collapsible) {
+        collapsible.addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    });
+
+    document.querySelector('#insertCurrencyForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        insertCurrencyRate();
+    });
+
+    document.querySelector('#convertCurrencyForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        convertCurrency();
+    });
+
+    document.querySelector('#updateCurrencyForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        updateRate();
+    });
+
+    populateCurrencyDropdown();
+});
+
+
+let currencyRatesArray = [];
+currencyRatesArray.push(new CurrencyRate("EUR", 1.0, currencyRates.date));
+
+currencyRatesArray = currencyRatesArray.concat(
+    Object.entries(currencyRates.rates).map(
+        ([code, rate]) => new CurrencyRate(code, rate, currencyRates.date)
+    )
+);
 
 function insertCurrencyRate() {
-    const base = document.getElementById('base').value.toUpperCase();
-    const targetCurrency = document.getElementById('targetCurrency').value.trim().toUpperCase();
-    const rate = parseFloat(document.getElementById('rate').value);
-    
+    const base = document.querySelector('#base').value.toUpperCase();
+    const targetCurrency = document.querySelector('#targetCurrency').value.trim().toUpperCase();
+    const rate = parseFloat(document.querySelector('#rate').value);
+
     if (!currencyRates) {
         currencyRates = {
             timestamp: Date.now(),
@@ -31,7 +71,7 @@ function insertCurrencyRate() {
         };
     }
 
-    if(targetCurrency === '' || rate === ''){
+    if (targetCurrency === '' || rate === '') {
         alert('Currency or Rate cannot be blank');
         return;
     }
@@ -41,59 +81,32 @@ function insertCurrencyRate() {
         return;
     }
 
-    if(currencyRatesArray.length > 0 && currencyRatesArray.findIndex(obj => obj.code == targetCurrency) !== -1){
-        alert('Curreny already exists in the list');
+    if (currencyRatesArray.length > 0 && currencyRatesArray.findIndex(obj => obj.code == targetCurrency) !== -1) {
+        alert('Currency already exists in the list');
         return;
     }
-
 
     currencyRates.timestamp = Date.now();
     currencyRates.date = new Date().toISOString().split('T')[0];
     currencyRates.rates[targetCurrency] = rate;
-    document.getElementById('newRateOutput').textContent = JSON.stringify(currencyRates, null, 2);
-  // const select = document.getElementById('targetCurrency').textContent;
-  // const selectCurrencyText = select.options[select.selectedIndex].text;
-   //console.log(currencyRatesArray.findIndex(obj => obj.code == select));
+    document.querySelector('#newRateOutput').textContent = JSON.stringify(currencyRates, null, 2);
+
     currencyRatesArray.push(new CurrencyRate(targetCurrency, rate, currencyRates.date));
     populateCurrencyDropdown();
 }
 
 function populateCurrencyDropdown() {
-    const selectedFromCurrencyLabel = document.getElementById('selected-from-currency-label');
-    const selectedToCurrencyLabel = document.getElementById('selected-to-currency-label');
-    const selectedCurrencyLabel = document.getElementById('selected-currency-label');
-    const fromCurrency = document.getElementById('fromCurrency');
-    const selectCurrency = document.getElementById('selectCurrency');
-    const toCurrency = document.getElementById('toCurrency');
-    const rates =  currencyRates.rates;
-    
-   /* while (fromCurrency.options.length > 1) {
-        fromCurrency.remove(1);
-        toCurrency.remove(1);
-        selectCurrency.remove(1);
-    }*/
+    startTimer();
+    const selectedFromCurrencyLabel = document.querySelector('#selected-from-currency-label');
+    const selectedToCurrencyLabel = document.querySelector('#selected-to-currency-label');
+    const selectedCurrencyLabel = document.querySelector('#selected-currency-label');
+    const fromCurrency = document.querySelector('#fromCurrency');
+    const selectCurrency = document.querySelector('#selectCurrency');
+    const toCurrency = document.querySelector('#toCurrency');
+    const rates = currencyRates.rates;
 
     selectedFromCurrencyLabel.innerHTML = '';
     selectedToCurrencyLabel.innerHTML = '';
-
-  /*  for (const [key, value] of Object.entries(rates)) {
-        const fromCurrencyOption = document.createElement('option');
-        fromCurrencyOption.value = value;
-        fromCurrencyOption.text = `${key}`;
-        fromCurrency.appendChild(fromCurrencyOption);
-
-        const toCurrencyOption = document.createElement('option');
-        toCurrencyOption.value = value;
-        toCurrencyOption.text = `${key}`;
-        toCurrency.appendChild(toCurrencyOption);
-
-        const selectCurrencyOption = document.createElement('option');
-        selectCurrencyOption.value = value;
-        selectCurrencyOption.text = `${key}`;
-        selectCurrency.appendChild(selectCurrencyOption);
-    }
-
-*/
 
     fromCurrency.addEventListener('change', function() {
         selectedFromCurrencyLabel.textContent = fromCurrency.value;
@@ -106,61 +119,53 @@ function populateCurrencyDropdown() {
     selectCurrency.addEventListener('change', function() {
         selectedCurrencyLabel.textContent = findCurrencyRate(selectCurrency.value);
     });
-    console.log(currencyRatesArray);
+
     populateTable();
     populateDatalist();
 }
 
-function findCurrencyRate(currencyCode){
+function findCurrencyRate(currencyCode) {
     let selectedArrIndex = currencyRatesArray.findIndex(obj => obj.code == currencyCode);
     return currencyRatesArray[selectedArrIndex].rate;
 }
 
-function convertRate(from, to){
+function convertRate(from, to) {
     let rate = (to/from).toFixed(3);
-
     return rate;
 }
 
-function convertCurrency(){
-    const amountInput = document.getElementById('amount').value;
+function convertCurrency() {
+    const amountInput = document.querySelector('#amount').value;
     const fromRate = fromCurrency.value;
     const toRate = toCurrency.value;
-    const convertedAmountLabel = document.getElementById('converted-amount-label');
+    const convertedAmountLabel = document.querySelector('#converted-amount-label');
 
-    if(toRate === fromRate){
-        alert("From and To currency cannot be same");
+    if (toRate === fromRate) {
+        alert("From and To currency cannot be the same");
         return;
     }
-    
+
     if (amountInput === null || amountInput.trim() === "") {
         alert("Amount cannot be blank");
         return;
     }
 
     let convertedAmount = convertRate(findCurrencyRate(fromRate), findCurrencyRate(toRate)) * amountInput;
-    convertedAmountLabel.textContent = "Converted amount would be "+convertedAmount.toFixed(3)+toRate;
-
+    convertedAmountLabel.textContent = "Converted amount would be " + convertedAmount.toFixed(3) + toRate;
 }
 
-
 function updateRate() {
-    const select = document.getElementById('selectCurrency');
-    const rateUpdatedLabel = document.getElementById('rate-updated-label');
-    const newRate = parseFloat(document.getElementById('newRate').value);
+    const select = document.querySelector('#selectCurrency');
+    const rateUpdatedLabel = document.querySelector('#rate-updated-label');
+    const newRate = parseFloat(document.querySelector('#newRate').value);
     const selectedCurrency = select.value;
-    const selectCurrencyText = selectedCurrency;
 
     if (selectedCurrency && !isNaN(newRate)) {
-        currencyRates.rates[selectCurrencyText] = newRate;
-/*
-        const selectedOption = select.options[select.selectedIndex];
-        selectedOption.text = selectedOption.text;
-        selectedOption.value = newRate;*/
+        currencyRates.rates[selectedCurrency] = newRate;
 
-        document.getElementById('newRateOutput').textContent = JSON.stringify(currencyRates, null, 2);
-        rateUpdatedLabel.textContent = selectCurrencyText +" currency rate has been update to "+newRate;
-        let selectedArrIndex = currencyRatesArray.findIndex(obj => obj.code == selectCurrencyText);
+        document.querySelector('#newRateOutput').textContent = JSON.stringify(currencyRates, null, 2);
+        rateUpdatedLabel.textContent = selectedCurrency + " currency rate has been updated to " + newRate;
+        let selectedArrIndex = currencyRatesArray.findIndex(obj => obj.code == selectedCurrency);
         currencyRatesArray[selectedArrIndex].rate = newRate;
         currencyRatesArray[selectedArrIndex].date = new Date().toISOString().split('T')[0];
 
@@ -171,8 +176,7 @@ function updateRate() {
 }
 
 function populateTable() {
-    const tableBody = document.getElementById('currencyTable').getElementsByTagName('tbody')[0];
-
+    const tableBody = document.querySelector('#currencyTable tbody');
 
     tableBody.innerHTML = '';
 
@@ -196,7 +200,7 @@ function populateTable() {
 }
 
 function populateDatalist() {
-    const datalist = document.getElementById('currencySuggestions');
+    const datalist = document.querySelector('#currencySuggestions');
 
     datalist.innerHTML = '';
 
@@ -207,13 +211,22 @@ function populateDatalist() {
     });
 }
 
-function filterSuggestions() {
-   // const searchInput = document.getElementById('currencySearch').value.toUpperCase();
-    //const select = document.getElementById('currency');
+function updateTimer() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString();
+    const currentHour = now.getHours();
+    const timerElement = document.querySelector('#timer');
 
-    // Remove all options except the first one
-   
+    if (currentHour >= 9 && currentHour < 17) {
+        timerElement.innerText = `${timeString} - Market is open`;
+        timerElement.className = 'timer-container open';
+    } else {
+        timerElement.innerText = `${timeString} - Market is closed`;
+        timerElement.className = 'timer-container closed';
+    }
+}
 
-    // Filter and add matching options to the dropdown
-    
+function startTimer() {
+    updateTimer(); 
+    setInterval(updateTimer, 1000);
 }
