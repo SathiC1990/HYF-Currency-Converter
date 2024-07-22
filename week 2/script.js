@@ -16,11 +16,12 @@ class CurrencyRate {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    var coll = document.querySelectorAll(".collapsible");
+    startTimer();
+    let coll = document.querySelectorAll(".collapsible");
     coll.forEach(function(collapsible) {
         collapsible.addEventListener("click", function() {
             this.classList.toggle("active");
-            var content = this.nextElementSibling;
+            let content = this.nextElementSibling;
             if (content.style.display === "block") {
                 content.style.display = "none";
             } else {
@@ -29,18 +30,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    document.querySelector('#insertCurrencyForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+    document.getElementById('insertRateButton').addEventListener('click', function() {
         insertCurrencyRate();
     });
 
-    document.querySelector('#convertCurrencyForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+    document.getElementById('convertCurrencyButton').addEventListener('click', function(event) {
         convertCurrency();
     });
 
-    document.querySelector('#updateCurrencyForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+    document.getElementById('updateCurrencyButton').addEventListener('click', function(event) {
         updateRate();
     });
 
@@ -96,7 +94,6 @@ function insertCurrencyRate() {
 }
 
 function populateCurrencyDropdown() {
-    startTimer();
     const selectedFromCurrencyLabel = document.querySelector('#selected-from-currency-label');
     const selectedToCurrencyLabel = document.querySelector('#selected-to-currency-label');
     const selectedCurrencyLabel = document.querySelector('#selected-currency-label');
