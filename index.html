@@ -1,62 +1,75 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
+    <link rel="stylesheet" href="styles.css">
     <title>Currency Conversion</title>
-</head>
-<body onload="populateCurrencyDropdown()">
+  </head>
+  <body onload="populateCurrencyDropdown()">
     <h2>Insert a New Currency Rate</h2>
     <form id="insertCurrencyForm">
-        <label for="base">Base Currency:</label><br>
-        <input type="text" id="base" name="base" value="EUR" disabled><br>
-        <label for="targetCurrency">Target Currency:</label><br>
-        <input type="text" id="targetCurrency" name="targetCurrency"><br>
-        <label for="rate">Rate:</label><br>
-        <input type="number" step="0.00001" id="rate" name="rate"><br><br>
-        <input type="button" value="Insert Rate" onclick="insertCurrencyRate()">
+      <label for="base">Base Currency:</label><br />
+      <input type="text" id="base" name="base" value="EUR" disabled /><br />
+      <label for="targetCurrency">Target Currency:</label><br />
+      <input type="text" id="targetCurrency" name="targetCurrency" /><br />
+      <label for="rate">Rate:</label><br />
+      <input type="number" step="0.00001" id="rate" name="rate" /><br /><br />
+      <input type="submit" value="Insert Rate" onclick="insertCurrencyRate()" />
     </form>
     <pre id="newRateOutput"></pre>
-
-    <hr/>
+    <hr />
 
     <h2>Convert Currency</h2>
     <form id="convertCurrencyForm">
-        <label for="fromCurrency">From:</label><br>
-        <select id="fromCurrency" name="fromCurrency">
-            <option value="">Select Currency</option>
-        </select>
-        <label> 1 </label>
-									<label id="selected-from-currency-label"></label>
-        <br>
-        <label for="toCurrency">To:</label><br>
-        <select id="toCurrency" name="toCurrency">
-            <option value="">Select Currency</option>
-        </select><label> Equivalent to </label>
-                                    <label id="selected-to-currency-label"></label>
-        <br>
-        <label for="amount">Amount:</label><br>
-        <input type="number" step="0.00001" id="amount" name="amount"><br><br>
-        <input type="button" value="Convert" onclick="convertCurrency()"><label id="converted-amount-label"> </label>
+      <label for="fromCurrency">From:</label><br />
+      <select id="fromCurrency" name="fromCurrency">
+        <option value="">Select Currency</option>
+      </select>
+      <label> 1 </label>
+      <label id="selected-from-currency-label"></label>
+      <br />
+      <label for="toCurrency">To:</label><br />
+      <select id="toCurrency" name="toCurrency">
+        <option value="">Select Currency</option></select
+      ><label> Equivalent to </label>
+      <label id="selected-to-currency-label"></label>
+      <br />
+      <label for="amount">Amount:</label><br />
+      <input
+        type="number"
+        step="0.00001"
+        id="amount"
+        name="amount"
+      /><br /><br />
+      <input type="submit" value="Convert" onclick="convertCurrency()" /><label
+        id="converted-amount-label"
+      >
+      </label>
     </form>
 
-    <hr/>
+    <hr />
 
     <h2>Update Currency</h2>
     <form id="updateCurrencyForm">
-        <label for="selectCurrency">Select a currency to update:</label><br>
-        <select id="selectCurrency" name="selectCurrency">
-            <option value="">Select Currency</option>
-        </select> <label> Selected currency rate </label>
-        <label id="selected-currency-label"></label>
-        
-        <br>
-        <label for="newRate">Insert Updated Rate:</label><br>
-        <input type="number" step="0.00001" id="newRate" name="newRate"><label id="rate-updated-label"></label>
-        <br>
-        <br>
-    
-        <input type="button" value="Update" onclick="updateRate()"><label id="update-currency-label"></label>
+      <label for="selectCurrency">Select a currency to update:</label><br />
+      <select id="selectCurrency" name="selectCurrency">
+        <option value="">Select Currency</option>
+      </select>
+      <label> Selected currency rate </label>
+      <label id="selected-currency-label"></label>
+
+      <br />
+      <label for="newRate">Insert Updated Rate:</label><br />
+      <input type="number" step="0.00001" id="newRate" name="newRate" /><label
+        id="rate-updated-label"
+      ></label>
+      <br />
+      <br />
+
+      <input type="submit" value="Update" onclick="updateRate()" /><label
+        id="update-currency-label"
+      ></label>
     </form>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
