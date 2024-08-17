@@ -1,11 +1,11 @@
-let currencyRates= "";/*{
+let currencyRates = {
     timestamp: 1519296206,
     base: "EUR",
     date: "2021-03-17",
     rates: {
         USD: 1.23396
     }
-};*/
+};
 
 class CurrencyRate {
     constructor(code, rate, date) {
@@ -15,58 +15,7 @@ class CurrencyRate {
     }
 }
 
-
-async function getData() {
-  try {
-    const response = await fetch(
-      "https://raw.githubusercontent.com/SathiC1990/sathic1990/main/data/currency.json"
-    );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const myData = await response.json();
-    const currencyRates = myData;
-
-    console.log(currencyRates);
-
-    currencyRatesArray.push(new CurrencyRate("EUR", 1.0, currencyRates.date));
-
-    currencyRatesArray = currencyRatesArray.concat(
-      Object.entries(currencyRates.rates).map(
-        ([code, rate]) => new CurrencyRate(code, rate, currencyRates.date)
-      )
-    );
-  } catch (error) {
-    console.error('Error fetching the currency data:', error);
-  }
-    populateCurrencyDropdown();
-}
-
-/*
-async function getData() {
-    const response = await fetch(
-      "https://raw.githubusercontent.com/SathiC1990/sathic1990/main/data/currency.json"
-    );
-    const myData = await response.json();
-  
-    currencyRates = myData;
-    console.log(currencyRates);
-    currencyRatesArray.push(new CurrencyRate("EUR", 1.0, currencyRates.date));
-
-currencyRatesArray = currencyRatesArray.concat(
-    Object.entries(currencyRates.rates).map(
-        ([code, rate]) => new CurrencyRate(code, rate, currencyRates.date)
-    )
-);
-
-populateCurrencyDropdown();
-  }*/
-  
-
 document.addEventListener('DOMContentLoaded', function() {
-    getData();
     startTimer();
     let coll = document.querySelectorAll(".collapsible");
     coll.forEach(function(collapsible) {
@@ -93,12 +42,18 @@ document.addEventListener('DOMContentLoaded', function() {
         updateRate();
     });
 
-    
+    populateCurrencyDropdown();
 });
 
 
 let currencyRatesArray = [];
+currencyRatesArray.push(new CurrencyRate("EUR", 1.0, currencyRates.date));
 
+currencyRatesArray = currencyRatesArray.concat(
+    Object.entries(currencyRates.rates).map(
+        ([code, rate]) => new CurrencyRate(code, rate, currencyRates.date)
+    )
+);
 
 function insertCurrencyRate() {
     const base = document.querySelector('#base').value.toUpperCase();
@@ -132,7 +87,7 @@ function insertCurrencyRate() {
     currencyRates.timestamp = Date.now();
     currencyRates.date = new Date().toISOString().split('T')[0];
     currencyRates.rates[targetCurrency] = rate;
-   // document.querySelector('#newRateOutput').textContent = JSON.stringify(currencyRates, null, 2);
+    document.querySelector('#newRateOutput').textContent = JSON.stringify(currencyRates, null, 2);
 
     currencyRatesArray.push(new CurrencyRate(targetCurrency, rate, currencyRates.date));
     populateCurrencyDropdown();
@@ -155,7 +110,7 @@ function populateCurrencyDropdown() {
     });
 
     toCurrency.addEventListener('change', function() {
-        selectedToCurrencyLabel.textContent = convertRate(findCurrencyRate(fromCurrency.value), findCurrencyRate(toCurrency.value)) + toCurrency.value;
+        selectedToCurrencyLabel.textContent = convertRate(findCurrencyRate(fromCurrency.value), findCurrencyRate(toCurrency.value)) + fromCurrency.value;
     });
 
     selectCurrency.addEventListener('change', function() {
@@ -178,8 +133,8 @@ function convertRate(from, to) {
 
 function convertCurrency() {
     const amountInput = document.querySelector('#amount').value;
-    const fromRate = document.querySelector('#fromCurrency').value;
-    const toRate = document.querySelector('#toCurrency').value;
+    const fromRate = fromCurrency.value;
+    const toRate = toCurrency.value;
     const convertedAmountLabel = document.querySelector('#converted-amount-label');
 
     if (toRate === fromRate) {
@@ -205,7 +160,7 @@ function updateRate() {
     if (selectedCurrency && !isNaN(newRate)) {
         currencyRates.rates[selectedCurrency] = newRate;
 
-       // document.querySelector('#newRateOutput').textContent = JSON.stringify(currencyRates, null, 2);
+        document.querySelector('#newRateOutput').textContent = JSON.stringify(currencyRates, null, 2);
         rateUpdatedLabel.textContent = selectedCurrency + " currency rate has been updated to " + newRate;
         let selectedArrIndex = currencyRatesArray.findIndex(obj => obj.code == selectedCurrency);
         currencyRatesArray[selectedArrIndex].rate = newRate;
@@ -271,32 +226,4 @@ function updateTimer() {
 function startTimer() {
     updateTimer(); 
     setInterval(updateTimer, 1000);
-}
-
-//---------------------
-var popup = document.getElementById('popup');
-
-var btn = document.getElementById('openPopupBtn');
-
-var span = document.getElementsByClassName('close')[0];
-
-btn.onclick = function() {
-    popup.style.display = 'block';
-}
-
-span.onclick = function() {
-    popup.style.display = 'none';
-}
-
-window.onclick = function(event) {
-    if (event.target == popup) {
-        popup.style.display = 'none';
-    }
-}
-
-var form = document.getElementById('popupForm');
-form.onsubmit = function(event) {
-    event.preventDefault();
-    alert('Form submitted! Name: ' + form.name.value + ', Email: ' + form.email.value);
-    popup.style.display = 'none';
 }
