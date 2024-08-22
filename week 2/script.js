@@ -202,22 +202,6 @@ function populateCurrencyDropdown() {
     populateDatalist();
 }
 
-function sendBrowserNotification(rate) {
-    if (Notification.permission === 'granted') {
-        new Notification('Rate Alert', {
-            body: `The ${fromCurrency} to ${toCurrency} rate has reached ${rate}! Consider converting now.`,
-        });
-    } else if (Notification.permission !== 'denied') {
-        Notification.requestPermission().then(permission => {
-            if (permission === 'granted') {
-                new Notification('Rate Alert', {
-                    body: `The ${fromCurrency} to ${toCurrency} rate has reached ${rate}! Consider converting now.`,
-                });
-            }
-        });
-    }
-}
-
 function findCurrencyRate(currencyCode) {
     let selectedArrIndex = currencyRatesArray.findIndex(obj => obj.code == currencyCode);
     return currencyRatesArray[selectedArrIndex].rate;
@@ -324,11 +308,11 @@ function startTimer() {
 }
 
 //---------------------
-var popup = document.getElementById('popup');
+let popup = document.getElementById('popup');
 
-var btn = document.getElementById('openPopupBtn');
+let btn = document.getElementById('openPopupBtn');
 
-var span = document.getElementsByClassName('close')[0];
+let span = document.getElementsByClassName('close')[0];
 
 btn.onclick = function() {
     popup.style.display = 'block';
@@ -344,7 +328,7 @@ window.onclick = function(event) {
     }
 }
 
-var form = document.getElementById('popupForm');
+let form = document.getElementById('popupForm');
 form.onsubmit = function(event) {
     event.preventDefault();
     alert('Form submitted! Name: ' + form.name.value + ', Email: ' + form.email.value);

@@ -1,98 +1,183 @@
+/* styles.css */
 
-        .timer-container {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            padding: 10px;
-            border: 2px solid #000;
-            border-radius: 5px;
-            background-color: #f0f0f0;
-        }
-        .open {
-            color: green;
-        }
-        .closed {
-            color: red;
-        }
-        .collapsible {
-            background-color: #f1f1f1;
-            color: #444;
-            cursor: pointer;
-            padding: 10px;
-            width: 100%;
-            border: none;
-            text-align: left;
-            outline: none;
-            font-size: 15px;
-            margin-bottom: 5px;
-        }
-        .active, .collapsible:hover {
-            background-color: #ccc;
-        }
-        .content {
-            padding: 0 18px;
-            display: none;
-            overflow: hidden;
-            background-color: #f9f9f9;
-        }
-        .form-container {
-            width: 30%;
-            margin: 0 auto;
-            text-align: left;
-        }
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            text-align: center;
-        }
-        table {
-            width: 30%;
-            margin: 20px auto;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid #000;
-        }
-        th, td {
-            padding: 10px;
-            text-align: center;
-        }
-        .popup {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
 
-        /* Popup content */
-        .popup-content {
-            background-color: #fefefe;
-            margin: 15% auto; /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; /* Could be more or less, depending on screen size */
-        }
+h2 {
+    color: #4CAF50;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
 
-        /* Close button */
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
+.form-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
 
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+button {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button.collapsible {
+    background-color: #007BFF;
+    margin-bottom: 15px;
+}
+
+button.collapsible:hover {
+    background-color: #0056b3;
+}
+
+.content {
+    display: none;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+}
+
+#currencyTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+#currencyTable th,
+#currencyTable td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+#currencyTable th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#currencyTable tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.timer-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 10px;
+    border: 2px solid #000;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+}
+.open {
+    color: green;
+}
+.closed {
+    color: red;
+}
+
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-top: 60px;
+}
+
+.popup-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Additional styles for labels next to inputs */
+label[for="fromCurrency"],
+label[for="toCurrency"],
+label[for="amount"] {
+    margin-bottom: 2px;
+}
+
+label#selected-from-currency-label,
+label#selected-to-currency-label,
+label#converted-amount-label,
+label#selected-currency-label,
+label#rate-updated-label,
+label#update-i-label {
+    display: inline;
+    font-weight: normal;
+    margin-left: 5px;
+    color: #555;
+}
+
+/* Collapsible content styling */
+.collapsible + .content {
+    padding: 10px 0;
+    border-top: 1px solid #ccc;
+}
